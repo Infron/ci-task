@@ -26,10 +26,28 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install
           npm install conventional-changelog-conventionalcommits
           npm install commitlint@latest
 
       - name: Validate current commit with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --from HEAD~1 --to HEAD --verbose
+
+      - name: Run unit tests
+        if: github.event_name == 'pull_request'
+        run: |
+          npm run test-ci
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-report
+          path: ./test-report.html
+
+      - name: Run e2e tests
+        if: github.event_name == 'pull_request'
+        run: |
+          npx playwright install
+          npm run e2e
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-report
+          path: playwright-report/index.html
