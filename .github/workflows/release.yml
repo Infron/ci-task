@@ -14,12 +14,12 @@ jobs:
     uses: ./.github/workflows/ci-test.yml
   deploy:
     uses: ./.github/workflows/deploy.yml
-    needs: review
+    needs: test
   changelog:
     uses: ./.github/workflows/changelog.yml
     if: ${{ always() }}
     needs:
-      - review
+      - test
       - deploy
     with:
       release: ${{ github.ref_name }}
