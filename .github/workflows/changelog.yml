@@ -5,10 +5,10 @@ on:
       release:
         required: true
         type: string
-      review-verified:
+      test-verified:
         required: true
         type: boolean
-      review-url:
+      test-url:
         required: true
         type: string
       deploy-verified:
