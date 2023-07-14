@@ -40,10 +40,18 @@ jobs:
           name: unit-test-report
           path: ./test-report.html
 
+      - name: Install XVFB
+        run: sudo apt-get install xvfb -y
+
+      - name: Run XVFB
+        run: |
+          export DISPLAY=:1
+          Xvfb :1 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
       - name: Run e2e tests
         run: |
-          npx playwright install --with-deps chromium
-          npx playwright test --project=chromium
+          npx playwright install
+          xvfb-run npm run e2e
 
       - name: Archive e2e test result
         uses: actions/upload-artifact@v3
