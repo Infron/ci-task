@@ -4,6 +4,12 @@ on:
   pull_request:
     branches: [ "master" ]
 
+  workflow_call:
+    outputs:
+      url:
+        description: Workflow URL
+        value: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   workflow_dispatch:
 
 jobs:
@@ -36,8 +42,8 @@ jobs:
 
       - name: Run e2e tests
         run: |
-          npx playwright install
-          npm run e2e
+          npx playwright install --with-deps chromium
+          npx playwright test --project=chromium
 
       - name: Archive e2e test result
         uses: actions/upload-artifact@v3
