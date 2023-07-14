@@ -51,7 +51,7 @@ jobs:
       - name: Run e2e tests
         run: |
           npx playwright install
-          xvfb-run npm run e2e
+          xvfb-run npm run e2e:ci
 
       - name: Archive e2e test result
         uses: actions/upload-artifact@v3
