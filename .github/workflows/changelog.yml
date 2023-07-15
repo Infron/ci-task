@@ -44,8 +44,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           release: ${{ inputs.release }}
-          reviewVerified: ${{ inputs.review-verified }}
-          reviewUrl: ${{ inputs.review-url }}
+          reviewVerified: ${{ inputs.test-verified }}
+          reviewUrl: ${{ inputs.test-url }}
           deployVerified: ${{ inputs.deploy-verified }}
           deployUrl: ${{ inputs.deploy-url }}
           pagesUrl: ${{ inputs.pages-url }}
@@ -54,12 +54,12 @@ jobs:
           update_existing: true
           search_existing: all
       - name: Report status
-        if: ${{!(inputs.review-verified && inputs.deploy-verified)}}
+        if: ${{!(inputs.test-verified && inputs.deploy-verified)}}
         run: gh issue comment ${{steps.issue.outputs.number}} --body "Can't close because of failed processess"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Close issue
-        if: ${{inputs.review-verified && inputs.deploy-verified}}
+        if: ${{inputs.test-verified && inputs.deploy-verified}}
         run: gh issue close ${{steps.issue.outputs.number}} --comment "Close due to successful release"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
