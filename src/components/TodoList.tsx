@@ -18,6 +18,7 @@ export const TodoList: FC = () => {
 
   const onClick = useCallback(() => {
     // dispatch(addItem(text));
+    
   }, [dispatch, text]);
 
   return (
